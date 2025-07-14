@@ -1,4 +1,6 @@
 # WIP
+![Logo]()
+
 ## Desafio Front-end React
 
 ### Objetivo
