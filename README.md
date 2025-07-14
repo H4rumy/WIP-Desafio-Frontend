@@ -41,7 +41,7 @@ Motivo:
 
 ## 🔒Regras  
 
-  ### ✍️ Campos
+### ✍️ Campos
 - n pares: campo numérico (int), max 999.
 
 - Cliente, Marca, Cor/ Sortimento, Tamanho: dropdowns filtráveis.
@@ -50,11 +50,11 @@ Motivo:
 
 - Pesos e medidas: apenas valores numéricos.
 
-  ### 🧩 Geracão do Código (PK)
+### 🧩 Geracão do Código (PK)
   Ao clicar no botão "Verify", será gerado o campo PK com a seguinte estrutura:
 PK<Pares><Cliente><Marca><Cor><Tamanho><Certificacão>
 
-  ### 🔽 Dropdowns com Dependências
+### 🔽 Dropdowns com Dependências
 Cliente --> Marca
 
 Marca --> Cor/Sortimento
