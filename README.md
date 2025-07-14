@@ -1,5 +1,5 @@
 # WIP
-![Logo]()
+![Logo](WIP-Logo)
 
 ## Desafio Front-end React
 
