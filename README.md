@@ -1,5 +1,5 @@
 # WIP - Technology Centre
-![Logo](WIP-Logo.png)
+![Logo](images/WIP-Logo.png)
 
 # Desafio Front-end React
 Este repositório contém a solução para o Desafio Técnico de Front-end proposto pela WIP.  
