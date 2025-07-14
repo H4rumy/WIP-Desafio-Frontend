@@ -3,10 +3,10 @@
 
 # Desafio Front-end React
 
-## Objetivo
+## 🎯 Objetivo
 Desenvolver uma interface funcional React, usando dropdowns dinâmicos com dependências e geracão automática de um código identificador. Este desafio avalia nao apenas a capacidade técnica, mas também o ritmo de trabalho e capcidade de previsão.
 
-## Tarefas Iniciais
+## 📝 Tarefas Iniciais
 --> Escolher uma biblioteca de componentes 
 
 --> Estimar o tempo necessário para o desenvolvimento
@@ -21,12 +21,12 @@ Desenvolver uma interface funcional React, usando dropdowns dinâmicos com depen
 
 --> Validacão de campos numéricos
 
-## Biblioteca de Componentes
+## 📚 Biblioteca de Componentes
 Escolha: 
 
 Motivo:
 
-## Previsão de Tempo
+## 🗓️ Previsão de Tempo
 1 dia para estudo e aprendizagem do React e biblioteca de componentes;
 
 3 dias para construir o website (back-end e Front-end):
@@ -39,9 +39,9 @@ Motivo:
     
 1 dia para resolver bugs.
 
-## Regras  
+## 🔒Regras  
 
-  ### 📄 Campos
+  ### ✍️ Campos
 n pares: campo numérico (int), max 999.
 
 Cliente, Marca, Cor/ Sortimento, Tamanho: dropdowns filtráveis.
@@ -50,16 +50,17 @@ Outros campos: texto livre.
 
 Pesos e medidas: apenas valores numéricos.
 
-  ### Geracão do Código (PK)
+  ### 🧩 Geracão do Código (PK)
   Ao clicar no botao Verify, será gerado o campo PK com a seguinte estrutura:
 PK<Pares><Cliente><Marca><Cor><Tamanho><Certificacao>
 
-  ### Dropdowns com Dependências
+  ### 🔽 Dropdowns com Dependências
 Cliente --> Marca
+
 Marca --> Cor/Sortimento
 
-  ### Mock API Endpoints
-  🔑Menu Inicial ("Create Articles")
+  ### 🛠️ Mock API Endpoints
+  1️⃣Menu Inicial ("Create Articles")
 
 {
  "success" : true,
@@ -72,7 +73,7 @@ Marca --> Cor/Sortimento
  ]
 }
 
-  🔑Escolha de Tipo "PK" (exibe restantes campos)
+  2️⃣Escolha de Tipo "PK" (exibe restantes campos)
 
 {
  "success" : true,
@@ -108,7 +109,7 @@ Marca --> Cor/Sortimento
  ],
 }
 
-🔗**Brand(dependente de Cliente)**
+3️⃣**Brand(dependente de Cliente)**
 
 _Cliente 001 - WIP_
 {
@@ -132,7 +133,7 @@ _Cliente 025 - IPCA_
   ]
 }
 
-🔗**Cor/Sortimento (dependnete de Marca)**
+4️⃣**Cor/Sortimento (dependnete de Marca)**
 _Exemplo Marca 001 - WIPTech Pro_
 
 {
