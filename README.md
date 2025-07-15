@@ -22,9 +22,8 @@ Este desafio tem como objetivo avaliar não apenas a competência técnica, mas 
 - Validacão de campos numéricos
 
 ## 📚 Biblioteca de Componentes
-Escolha: 
-
-Motivo:
+Para a biblioteca de componenetes foi esoclhida a **Shadcn UI**.
+A Shadcn UI é uma biblioteca moderna de componentes React, construida com Tailwind CSS e baseada em Radix UI. Foi desenhada para fornecer componentes acessiveis e altamente personalizaveis. 
 
 ## 🗓️ Timeline do Projeto
 - 1 dia para estudo e aprendizagem de React e da biblioteca de componentes;
@@ -38,6 +37,17 @@ Motivo:
     dia 4- Gravacão e geracão do JSON final.
     
 - 1 dia para resolucão de bugs.
+
+## 🛠️Tecnologias Utilizadas
+- Visual Studio Code: Editor de código.
+- React: Biblioteca JavaScript para construcao da interface
+- TypeScript: Superset de JavaScript que adiciona tipagem estática ao código, auemntando a seguranca e escalabilidade do proejto
+- Vite: Ferramenta de build rápida, usada para configurar o ambiente de desenvolvimento com React + TypeScript
+- Tailwind CSS: Framework de estilos utilitarios.
+- Shadcn UI: Biblioteca de componentes React.
+- Radix UI (base do shadcn): conjunto de componentes acessiveis sem estilos.
+- Axios: Biblioteca para fazer requisicoes HTTP(simular comunicacao com APIs)
+- axios-mock-adapter- Ferramenta para simular respostas de API no ambiente local
 
 ## 🔒Regras  
 
@@ -59,91 +69,13 @@ Cliente --> Marca
 
 Marca --> Cor/Sortimento
 
-  ## 🛠️ Mock API Endpoints
-  1️⃣Menu Inicial ("Create Articles")
-```
-{
- "success" : true,
- "data" : [
-  "PM",
-  "PK",
-  "AC",
-  "KS"
- ]
-}
-```
-
-  2️⃣Escolha de Tipo "PK" (exibe restantes campos)
-```
-{
- "success" : true,
- "customer": [
-  {"001" : "WIP"},
-  {"025" : "IPCA"}
- ],
- "certification": [
-  {"001" : "GOTS"},
-  {"002" : "BLUE"},
-  {"003" : "GREEN"}
- ],
- "unit": [
-  {"001" : "UN"},
-  {"002" : "PK"},
-  {"003" : "PAIR"},
- ],
- "currency": [
-  {"001" : "EUR"},
-  {"002" : "USD"},
-  {"003" : "JPY"},
-  {"004" : "GBP"},
- ],
- "sustComp": [
-  {"001" : "ECO"},
-  {"002" : "WOOL"},
-  {"003" : "GRTXT"},
- ],
-}
-```
-3️⃣**Brand(dependente de Cliente)**
-
-_Cliente 001 - WIP_
-```
-{
-  "success": true,
-  "data": [
-    {"001": "WIPTech Pro"},
-    {"253": "WIPTech Ultra"},
-    {"563": "WIPTech Standard"}
-  ]
-}
-```
-_Cliente 025 - IPCA_
-```
-{
-  "success": true,
-  "data": [
-    {"009": "IPCA 1"},
-    {"632": "IPCA 2"}
-  ]
-}
-```
-4️⃣**Cor/Sortimento (dependente de Marca)**
-
-_Exemplo Marca 001 - WIPTech Pro_
-```
-{
-  "success": true,
-  "data": [
-    {"002": "Pure Red"},
-    {"006": "Soft White"},
-    {"009": "Sunset Orange"}
-  ]
-}
-```
-  ### 💾 Gravacão
+### 💾 Gravacão
 O botão "Gravar" deve:
 - Gerar um JSON com todos os campos preenchidos;
 - Remover a chave "Success" das respostas mock;
 - Incluir campos de texto livre e dropdowns com os códigos e valores selecionados.
 
+  ## 🛠️ Mock API Endpoints
+
 ## 📂 Estrutura Planeada
+
