@@ -31,8 +31,10 @@ export default function SidebarMenuLeft({ onSelect }: SidebarMenuProps) {
   return (
     <SidebarProvider>
       <Sidebar className="w-64 h-screen fixed left-0 top-0 bg-gray-100 text-left pl-4">
+
+    
         <SidebarHeader>
-          <div className="pl-4 flex justify-start">
+          <div className="pl-4 ">
             <img src="/img/WIP.png" alt="Logo" className="h-24 w-auto" />
           </div>
         </SidebarHeader>
