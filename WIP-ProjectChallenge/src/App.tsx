@@ -10,7 +10,7 @@ export default function App() {
   const [selected, setSelected] = useState("CreateArticles");
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen"> 
       <SidebarMenuLeft onSelect={setSelected} />
 
       <main className="fixed">
