@@ -9,12 +9,12 @@ import { getColorsByBrand } from "@/api/colorsSort";
 import {generateArticleJSON} from "@/mocks/GenerateJSON";
 
 export default function CreateArticlePage() {
+
   const [types, setTypes] = useState<string[]>([]);
   const [type, setType] = useState("");
   const [details, setDetails] = useState<any>(null);
-
-
   const [selectedCustomer, setSelectedCustomer] = useState("");
+
   const [selectedBrand, setSelectedBrand] = useState("");
   const [brandOptions, setBrandOptions] = useState<{ value: string; label: string }[]>([]);
 
@@ -140,7 +140,7 @@ function validarNineDigits(
   fieldName = "A referência"
 ) {
   if (value.trim() === "") {
-    setError(""); // Não mostra erro se estiver vazio
+    setError("");
     return;
   }
 
@@ -284,7 +284,7 @@ function handleTwoDigitNumberChange(
                 <IoChevronForward size={16} />
             </div>
           <div className="flex items-center space-x-20 mb-4">
-            {/* Campo Pares */}
+            {/* Pares */}
             <div className="flex items-center space-x-2">
               <label htmlFor="pares" className="font-medium whitespace-nowrap text-right ml-8">
                 N Pares / Nr. <p></p>Pairs
@@ -300,7 +300,7 @@ function handleTwoDigitNumberChange(
               />
             </div>
 
-            {/* Grupo: Packs + Coeficiente */}
+            {/* Packs + Coeficiente */}
             <div className="flex items-center space-x-4 ml-10">
               {/* Packs */}
               <div className="flex items-center space-x-2">
@@ -375,7 +375,7 @@ function handleTwoDigitNumberChange(
               </div>
             </div>
             <div className="flex items-center space-x-29 mt-4">
-              {/* Grupo Cor */}
+              {/*  Cor */}
                 <div className="flex items-center space-x-2">
                   <label className="font-medium whitespace-nowrap text-right">Cor - Sortimento<p></p>/ Color -<p></p>Assortment</label>
                   <div className="w-64">
@@ -388,7 +388,7 @@ function handleTwoDigitNumberChange(
                   </div>
                 </div>
 
-                {/* Grupo Tamanho */}
+                {/*  Tamanho */}
                 <div className="flex items-center space-x-2">
                   <label className="font-medium whitespace-nowrap ml-20">Tamanho / Size</label>
                   <div className="w-64">
@@ -653,15 +653,13 @@ function handleTwoDigitNumberChange(
                   <button
                     className="border px-4 py-2 rounded bg-white hover:bg-gray-100 text-gray-800"
                     onClick={handleGravarClick}
-                  >
-                    Gravar
+                  > Gravar
                   </button>
                 </div>
            </>
           )}
         </>
       )}
-
     </div>
   )
 }

@@ -32,7 +32,7 @@ export function getBrandsByCustomer(customerId: string): Promise<BrandData> {
       } else {
         resolve({ success: false, data: [] });
       }
-    }, 300); // simula delay de 300ms
+    }, 300);
   });
 }
 

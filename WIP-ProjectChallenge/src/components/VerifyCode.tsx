@@ -22,7 +22,7 @@ export function generatePKCode(
   selectedCertificationCode: string
 ): string | null {
   if (!details || !details.customer || !details.certification ||!selectedCustomerCode ||!selectedBrandCode||!selectedColorCode  ||!pares || !selectedSize || !selectedCertificationCode) {
-    console.error("Detalhes inválidos");
+    console.error("Campos inválidos");
     return null;
   }
 

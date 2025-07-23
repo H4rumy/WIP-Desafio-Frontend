@@ -36,7 +36,7 @@ export function generateArticleJSON({
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = `article_${codigoPK}.json`; // ou outro nome que quiseres
+  a.download = `article_${codigoPK}.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

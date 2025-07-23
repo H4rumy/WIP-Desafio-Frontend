@@ -9,7 +9,7 @@ const mock = new MockAdapter(axios, { delayResponse: 500 });
 // mock para carregar os tipos de artigo
 mock.onGet("/article-types").reply(200, articleTypes);
 
-// mock para dados adicionais de PK
+// mock para dados adicionais PK
 mock.onGet("/details").reply(200, details);
 
 export default mock;
