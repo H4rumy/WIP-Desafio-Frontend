@@ -1,13 +1,12 @@
-
 import { useEffect, useState } from "react";
 import { IoChevronForward } from "react-icons/io5";
 import { SearchableDropdown } from "./SearchableDropdown";
 import { getArticleTypes } from "@/api/articleTypes";
 import { generatePKCode } from "@/components/VerifyCode";
-import type { DetailsType } from "@/components/VerifyCode";
 import { getPKDetails } from "@/api/details";
 import { getBrandsByCustomer } from "@/api/brands";
 import { getColorsByBrand } from "@/api/colorsSort";
+import {generateArticleJSON} from "@/mocks/GenerateJSON";
 
 export default function CreateArticlePage() {
   const [types, setTypes] = useState<string[]>([]);
@@ -108,6 +107,25 @@ const SustCompOptions = details?.sustComp?.map((u: Record<string, string>) => {
     }
   };
   
+  const [descricao, setDescricao] = useState("");
+  const [observacoes, setObservacoes] = useState("");
+  const handleGravarClick = () => {
+  const json = generateArticleJSON({
+    selectedCustomer,
+    selectedCertification,
+    selectedBrand,
+    selectedColor,
+    selectedSize,
+    pares,
+    codigoPK: codigo,
+    descricao,
+    observacoes,
+  });
+
+  console.log("JSON final:", json);
+  // aqui podes enviar para a API, mostrar numa modal, gravar num ficheiro, etc.
+};
+
 function handleNineDigitChange(
   e: React.ChangeEvent<HTMLInputElement>,
   setValue: React.Dispatch<React.SetStateAction<string>>,
@@ -615,7 +633,7 @@ function handleTwoDigitNumberChange(
                   type="text"
                   readOnly
                   value={codigo}
-                  placeholder="Código aparecerá aqui"
+                  placeholder=""
                   className="w-72 p-2 border border-gray-200 rounded"
                 />
                 
@@ -626,7 +644,14 @@ function handleTwoDigitNumberChange(
                   Verificar
                 </button>
               </div>
-
+                <div className="flex justify-end mt-4">
+                  <button
+                    className="border px-4 py-2 rounded bg-white hover:bg-gray-100 text-gray-800"
+                    onClick={handleGravarClick}
+                  >
+                    Gravar
+                  </button>
+                </div>
            </>
           )}
         </>

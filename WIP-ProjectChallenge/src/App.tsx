@@ -7,7 +7,7 @@ import SidebarMenuLeft from "@/components/SidebarMenuLeft";
 import CreateArticlePage from "./components/CreateArticlePage";
 
 export default function App() {
-  const [selected, setSelected] = useState("CreateArticles");
+  const [selected, setSelected] = useState("");
 
   return (
     <div className="flex h-screen"> 
@@ -15,7 +15,7 @@ export default function App() {
 
       <main className="fixed">
         {selected === "CreateArticles" && <CreateArticlePage />}
-        {selected !== "CreateArticles" && <div>Conteúdo {selected}</div>}
+        {selected !== "CreateArticles" && <div> {selected}</div>}
       </main>
     </div>
   );
