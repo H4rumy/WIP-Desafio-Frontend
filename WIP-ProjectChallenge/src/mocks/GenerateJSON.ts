@@ -6,9 +6,8 @@ export function generateArticleJSON({
   selectedSize,
   pares,
   codigoPK,
-  descricao,
-  observacoes,
-  // outros campos de texto livre...
+  designacao,
+  refClient,
 }: {
   selectedCustomer: string;
   selectedCertification: string;
@@ -17,10 +16,10 @@ export function generateArticleJSON({
   selectedSize: string;
   pares: string;
   codigoPK: string;
-  descricao: string;
-  observacoes: string;
+  designacao: string;
+  refClient: string;
 }) {
-  return {
+  const articleData = {
     customer: selectedCustomer,
     certification: selectedCertification,
     brand: selectedBrand,
@@ -28,8 +27,19 @@ export function generateArticleJSON({
     size: selectedSize,
     pairs: pares,
     code: codigoPK,
-    description: descricao,
-    notes: observacoes,
-    // adiciona outros campos aqui conforme necessário
+    description: designacao,
+    referenceCostumer: refClient,
   };
+
+  const blob = new Blob([JSON.stringify(articleData, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `article_${codigoPK}.json`; // ou outro nome que quiseres
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
 }

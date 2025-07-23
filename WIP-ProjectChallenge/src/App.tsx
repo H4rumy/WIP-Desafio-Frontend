@@ -12,7 +12,7 @@ export default function App() {
   return (
     <div className="flex h-screen"> 
       <SidebarMenuLeft onSelect={setSelected} />
-
+    
       <main className="fixed">
         {selected === "CreateArticles" && <CreateArticlePage />}
         {selected !== "CreateArticles" && <div> {selected}</div>}

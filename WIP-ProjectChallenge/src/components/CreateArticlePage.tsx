@@ -107,10 +107,8 @@ const SustCompOptions = details?.sustComp?.map((u: Record<string, string>) => {
     }
   };
   
-  const [descricao, setDescricao] = useState("");
-  const [observacoes, setObservacoes] = useState("");
   const handleGravarClick = () => {
-  const json = generateArticleJSON({
+  generateArticleJSON({
     selectedCustomer,
     selectedCertification,
     selectedBrand,
@@ -118,13 +116,11 @@ const SustCompOptions = details?.sustComp?.map((u: Record<string, string>) => {
     selectedSize,
     pares,
     codigoPK: codigo,
-    descricao,
-    observacoes,
+    designacao,
+    refClient,
   });
-
-  console.log("JSON final:", json);
-  // aqui podes enviar para a API, mostrar numa modal, gravar num ficheiro, etc.
 };
+
 
 function handleNineDigitChange(
   e: React.ChangeEvent<HTMLInputElement>,
@@ -258,7 +254,7 @@ function handleTwoDigitNumberChange(
   return (
     <div className="text-left w-full max-w-full">
         <hr className="my-6 border-gray-300" />
-          <p className="text-base mt-4 mb-6">
+          <p className="text-base mb-3">
             Criação, Registo e Verificação de Códigos de Artigos / Articles Codes Creation, Verification and Registration 
           </p>
 
@@ -283,20 +279,20 @@ function handleTwoDigitNumberChange(
         {type === "PK" && (
           <>
           <div className="flex items-center space-x-1 p-4 w-auto">
-            <IoChevronForward size={20} />
-            <span>Packs de Meias / Packs Assortment Socks</span>
-            <IoChevronForward size={20} />
-          </div>
-
-          <div className="flex items-center space-x-35 mb-6">
+                <IoChevronForward size={16} />
+                <span>Packs de Meias / Packs Assortment Socks</span>
+                <IoChevronForward size={16} />
+            </div>
+          <div className="flex items-center space-x-20 mb-4">
+            {/* Campo Pares */}
             <div className="flex items-center space-x-2">
-              <label htmlFor="pares" className="font-medium whitespace-nowrap">
-                N Pares / Nr. Pairs
+              <label htmlFor="pares" className="font-medium whitespace-nowrap text-right ml-8">
+                N Pares / Nr. <p></p>Pairs
               </label>
               <input
                 id="Pares"
                 type="number"
-                className="border rounded p-2 w-50"
+                className="border rounded p-2 w-64"
                 value={pares}
                 onChange={(e) => handleNumberChange(setPares, e.target.value)}
                 min={0}
@@ -304,44 +300,49 @@ function handleTwoDigitNumberChange(
               />
             </div>
 
-            <div className="flex items-center space-x-2">
-              <label htmlFor="packs" className="font-medium whitespace-nowrap">
-                Packs p/Cx./ Packs per Box
-              </label>
-              <input
-                id="packs"
-                type="number"
-                className="border rounded p-2 w-20"
-                value={packs}
-                onChange={(e) => handleNumberChange(setPacks, e.target.value)}
-                min={0}
-                max={999}
-                placeholder="0"
-              />
-            </div>
+            {/* Grupo: Packs + Coeficiente */}
+            <div className="flex items-center space-x-4 ml-10">
+              {/* Packs */}
+              <div className="flex items-center space-x-2">
+                <label htmlFor="packs" className="font-medium whitespace-nowrap text-right ml-20">
+                  Packs p/Cx./ <p></p>Packs per Box
+                </label>
+                <input
+                  id="packs"
+                  type="number"
+                  className="border rounded p-2 w-20"
+                  value={packs}
+                  onChange={(e) => handleNumberChange(setPacks, e.target.value)}
+                  min={0}
+                  max={999}
+                  placeholder="0"
+                />
+              </div>
 
-            <div className="flex items-center space-x-2  ">
-              <label htmlFor="coeficiente" className="font-medium whitespace-nowrap">
-                Coeficiente p/Cx./Coefficient per Box
-              </label>
-              <input
-                type="number"
-                id="coeficiente"
-                className="border rounded p-2 w-40"
-                value={coeficiente}
-                step="any"
-                placeholder="0,00000000"
-                onChange={(e) => handleFloatChange(setCoeficiente, e.target.value)}
-              />
+              {/* Coeficiente */}
+              <div className="flex items-center space-x-2">
+                <label htmlFor="coeficiente" className="font-medium whitespace-nowrap">
+                  Coeficiente p/Cx./Coefficient <p></p>per Box
+                </label>
+                <input
+                  type="number"
+                  id="coeficiente"
+                  className="border rounded p-2 w-40"
+                  value={coeficiente}
+                  step="any"
+                  placeholder="0,00000000"
+                  onChange={(e) => handleFloatChange(setCoeficiente, e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
           {details && (
             <>
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-30">
               {/* Dropdown Customer */}
               <div className="flex items-center space-x-2">
-                <label className="font-medium whitespace-nowrap">Cliente / Customer</label>
+                <label className="font-medium whitespace-nowrap text-right ml-13">Cliente / <p></p>Customer</label> 
                 <div className="w-64">
                   <SearchableDropdown
                     options={details.customer.map((c: Record<string, string>) => {
@@ -362,7 +363,7 @@ function handleTwoDigitNumberChange(
 
               {/* Dropdown Brand */}
               <div className="flex items-center space-x-2">
-                <label className="font-medium whitespace-nowrap">Marca / Brand</label>
+                <label className="font-medium whitespace-nowrap ml-20">Marca / Brand</label>
                 <div className="w-64">
                   <SearchableDropdown
                     options={brandOptions}
@@ -373,21 +374,24 @@ function handleTwoDigitNumberChange(
                 </div>
               </div>
             </div>
-            {/* Dropdown Color (abaixo) */}
-              <div className="flex items-center space-x-2 mt-4">
-                <label className="font-medium whitespace-nowrap">Cor / Color</label>
-                <div className="w-64">
-                  <SearchableDropdown
-                    options={colorOptions}
-                    selectedValue={selectedColor}
-                    onValueChange={setSelectedColor}
-                    placeholder=""
-                  />
-                </div>
-                {/* Dropdown Size */}
+            <div className="flex items-center space-x-29 mt-4">
+              {/* Grupo Cor */}
                 <div className="flex items-center space-x-2">
-                  <label className="font-medium whitespace-nowrap">Tamanho / Size</label>
-                  <div className="w-40">
+                  <label className="font-medium whitespace-nowrap text-right">Cor - Sortimento<p></p>/ Color -<p></p>Assortment</label>
+                  <div className="w-64">
+                    <SearchableDropdown
+                      options={colorOptions}
+                      selectedValue={selectedColor}
+                      onValueChange={setSelectedColor}
+                      placeholder=""
+                    />
+                  </div>
+                </div>
+
+                {/* Grupo Tamanho */}
+                <div className="flex items-center space-x-2">
+                  <label className="font-medium whitespace-nowrap ml-20">Tamanho / Size</label>
+                  <div className="w-64">
                     <SearchableDropdown
                       options={sizeOptions}
                       selectedValue={selectedSize}
@@ -397,9 +401,10 @@ function handleTwoDigitNumberChange(
                   </div>
                 </div>
               </div>
+
               {/*Dropdown Certification */}
-                <div className="flex items-center space-x-2 mt-4">
-                  <label className="font-medium whitespace-nowrap">Certification</label>
+                <div className="flex items-center space-x-2 mt-4 ml-6">
+                  <label className="font-medium whitespace-nowrap text-right ">Certificacão / <p></p>Certification</label>
                   <div className="w-64">
                     <SearchableDropdown
                       options={certificationOptions}
@@ -409,18 +414,17 @@ function handleTwoDigitNumberChange(
                     />
                   </div>
               </div>
-              <hr className="my-6 border-gray-300" /> 
-
-
+              <hr className="my-6 border-gray-300" />
+               
               <div className="flex items-center space-x-6 mt-4">
               {/* Designação- texto livre*/}
               <div className="flex items-center space-x-2">
-                <label htmlFor="designacao" className="font-medium whitespace-nowrap">
+                <label htmlFor="designacao" className="font-medium whitespace-nowrap text-right ml-4">
                   Designação / Description
                 </label>
                 <textarea
                   id="designacao"
-                  className="border rounded p-2 w-48 h-24 resize-none"
+                  className="border rounded p-2 w-60 h-24 resize-none"
                   placeholder=""
                   value={designacao}
                   onChange={(e) => setDesignacao(e.target.value)}
@@ -429,7 +433,7 @@ function handleTwoDigitNumberChange(
 
               {/* Un/Unit */}
               <div className="flex items-center space-x-2">
-                <label htmlFor="unit" className="font-medium whitespace-nowrap">
+                <label htmlFor="unit" className="font-medium whitespace-nowrap ml-30">
                   Un/Unit
                 </label>
                 <div className="w-40">
@@ -444,8 +448,8 @@ function handleTwoDigitNumberChange(
 
               {/* Preço Un/Un Price */}
               <div className="flex items-center space-x-2">
-                <label htmlFor="unit" className="font-medium whitespace-nowrap">
-                  Preco Un/Un Price
+                <label htmlFor="unit" className="font-medium whitespace-nowrap text-right">
+                  Preco<p></p> Un/Un <p></p>Price
                 </label>
                 <input
                   id="unit"
@@ -461,7 +465,7 @@ function handleTwoDigitNumberChange(
 
               {/* Moeda / Currency */}
               <div className="flex items-center space-x-2">
-                <label htmlFor="currency" className="font-medium whitespace-nowrap">
+                <label htmlFor="currency" className="font-medium whitespace-nowrap text-right">
                   Moeda / Currency
                 </label>
                 <div className="w-40">
@@ -487,7 +491,7 @@ function handleTwoDigitNumberChange(
                     inputMode="numeric"
                     pattern="\d{9}"
                     maxLength={9}
-                    className="border rounded p-2"
+                    className="border rounded p-2 w-60"
                     placeholder=""
                     value={refClient}
                     onChange={(e) => handleNineDigitChange(e, setRefClient, setErroRefClient)}
@@ -498,7 +502,7 @@ function handleTwoDigitNumberChange(
 
                 {/* Sustainable Comp */}
                 <div className="flex items-center space-x-2">
-                  <label htmlFor="sustComp" className="font-medium whitespace-nowrap">
+                  <label htmlFor="sustComp" className="font-medium whitespace-nowrap ml-28">
                     Sustainable Comp.
                   </label>
                   <div className="w-40">
@@ -514,7 +518,7 @@ function handleTwoDigitNumberChange(
 
               {/* CS Style Ref */}
               <div className="flex items-center space-x-2">
-                <label htmlFor="refCSS" className="font-medium whitespace-nowrap mb-1">
+                <label htmlFor="refCSS" className="font-medium whitespace-nowrap mb-1 ml-28">
                   CS Style ref.
                 </label>
                 <input
@@ -523,7 +527,7 @@ function handleTwoDigitNumberChange(
                   inputMode="numeric"
                   pattern="\d{9}"
                   maxLength={9}
-                  className="border rounded p-2"
+                  className="border rounded p-2 w-60"
                   placeholder=""
                   value={refCSS}
                   onChange={(e) => handleNineDigitChange(e, setRefCSS, setErroRefCSS)}
@@ -535,7 +539,7 @@ function handleTwoDigitNumberChange(
               <div className="flex items-center space-x-6">
                 {/* Customer Barcode */}
                 <div className="flex items-center space-x-2">
-                  <label htmlFor="barCode" className="font-medium whitespace-nowrap mb-1">
+                  <label htmlFor="barCode" className="font-medium whitespace-nowrap mb-1 ml-3">
                     Customer Barcode EAN13
                   </label>
                   <input
@@ -544,7 +548,7 @@ function handleTwoDigitNumberChange(
                     inputMode="numeric"
                     pattern="\d{9}"
                     maxLength={9}
-                    className="border rounded p-2"
+                    className="border rounded p-2 w-60"
                     placeholder=""
                     value={barCode}
                     onChange={(e) => handleNineDigitChange(e, setBarCode, setErroBarCode)}
@@ -556,7 +560,7 @@ function handleTwoDigitNumberChange(
                 {/* Peso */}
                 <div className="flex items-center space-x-2">
                   <label htmlFor="peso" className="font-medium whitespace-nowrap mb-1">
-                    Peso / Weight-PK
+                    Peso / Weight-<p></p>PK
                   </label>
                   <input
                     id="peso"
@@ -571,16 +575,16 @@ function handleTwoDigitNumberChange(
                   <span className="text-sm text-gray-700">Gr</span>
                 </div>
               </div>
-              <div className="flex items-end space-x-8 mt-4">
+              <div className="flex items-end space-x-8 ">
                 {/* Peso Cx */}
                 <div className="flex items-center space-x-2">
-                  <label htmlFor="pesoCx" className="font-medium whitespace-nowrap">
+                  <label htmlFor="pesoCx" className="font-medium whitespace-nowrap ml-10">
                     Peso Cx / Box Weight
                   </label>
                   <input
                     id="pesoCx"
                     type="number"
-                    className="border rounded p-2 w-24"
+                    className="border rounded p-2 w-15"
                     placeholder=""
                     value={pesoCx}
                     onChange={(e) => handleTwoDigitNumberChange(setPesoCx, e.target.value)}
@@ -592,7 +596,7 @@ function handleTwoDigitNumberChange(
 
                 {/* Medidas Cx */}
                 <div className="flex items-center space-x-2">
-                  <label className="font-medium whitespace-nowrap">Medidas Cx</label>
+                  <label className="font-medium whitespace-nowrap">Medidas Cx / Box<p></p> Measures</label>
 
                   {/* Medida 1 */}
                   <input
@@ -626,6 +630,7 @@ function handleTwoDigitNumberChange(
                 </div>
               </div>
               </div>
+              
               <div className="flex justify-end items-center gap-4 p-5">
                 <label className="whitespace-nowrap">Código Gerado / New Code Created</label>
                 
@@ -644,7 +649,7 @@ function handleTwoDigitNumberChange(
                   Verificar
                 </button>
               </div>
-                <div className="flex justify-end mt-4">
+                <div className="flex justify-end">
                   <button
                     className="border px-4 py-2 rounded bg-white hover:bg-gray-100 text-gray-800"
                     onClick={handleGravarClick}
