@@ -85,7 +85,7 @@ export default function CreateArticlePage() {
               <input
                 id="number2"
                 type="number"
-                className="border rounded p-2 w-20"
+                className="border rounded p-2 w-25"
                 value={number2}
                 onChange={(e) => handleNumberChange(setNumber2, e.target.value)}
                 min={0}
@@ -109,6 +109,10 @@ export default function CreateArticlePage() {
             />
             </div>
           </div>
+
+
+
+          
         </>
         )}
     </div>
