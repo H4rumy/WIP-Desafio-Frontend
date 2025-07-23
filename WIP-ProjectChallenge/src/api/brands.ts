@@ -1,6 +1,5 @@
-import axios from "axios"
+import { getBrandsByCustomer as getBrandsMock } from "@/mocks/brands";
 
-export const fetchBrandsByCostumer = async (customerId:string) => {
-    const response = await axios.get(`/api/brands/${customerId}`)
-    return response.data
+export function getBrandsByCustomer(customerId: string) {
+  return getBrandsMock(customerId);
 }

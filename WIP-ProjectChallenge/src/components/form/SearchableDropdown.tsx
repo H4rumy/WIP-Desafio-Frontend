@@ -1,17 +1,4 @@
-/*Componente genérico para dropdowns com search.
-
-Recebe props:
-
-label
-
-options
-
-value
-
-onChange
-
-disabled    
-*/
+"use client";
 
 import {
   Popover,
@@ -20,31 +7,36 @@ import {
 } from "@/components/ui/popover"
 import {
   Command,
+  CommandEmpty,
+  CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
 } from "@/components/ui/command"
 import { Button } from "@/components/ui/button"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 
-type Props = {
-  options: string[]
-  value: string
-  onChange: (val: string) => void
-  placeholder?: string
-  width?: string // ex: "w-64" ou "w-[200px]"
+interface Option {
+  value: string;
+  label: string;
 }
-
+interface SearchableDropdownProps {
+  options: Option[];
+  placeholder?: string;
+  selectedValue: string;
+  onValueChange: (value: string) => void;
+}
 export function SearchableDropdown({
   options,
-  value,
-  onChange,
-  placeholder = "Procurar/Search",
-  width = "w-64",
-}: Props) {
-  const [open, setOpen] = useState(false)
+  placeholder = "Selecionar...",
+  selectedValue,
+  onValueChange,
+}: SearchableDropdownProps) {
+  const [open, setOpen] = useState(false);
+
+  const selectedLabel =
+    options.find((opt) => opt.value === selectedValue)?.label || placeholder;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -52,38 +44,39 @@ export function SearchableDropdown({
         <Button
           variant="outline"
           role="combobox"
-          aria-expanded={open} //verificar
-          className={cn("justify-between", width)}
+          aria-expanded={open}
+          className="w-full justify-between"
         >
-          {value || placeholder}
+          {selectedLabel}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0">          
-        <Command>
-          <CommandInput placeholder={placeholder} />
-          <CommandList>
-            {options.map((option) => (
+      <PopoverContent className="w-full p-0">
+        <Command className="max-h-60 overflow-y-auto">
+          <CommandInput placeholder="Procurar..." />
+          <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
+          <CommandGroup>
+            {options.map((opt) => (
               <CommandItem
-                key={option}
-                value={option}
-                onSelect={(val) => {
-                  onChange(val)
-                  setOpen(false)
+                key={opt.value}
+                value={opt.label}
+                onSelect={() => {
+                  onValueChange(opt.value);
+                  setOpen(false);
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === option ? "opacity-100" : "opacity-0"
+                    selectedValue === opt.value ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {option}
+                {opt.label}
               </CommandItem>
             ))}
-          </CommandList>
+          </CommandGroup>
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
