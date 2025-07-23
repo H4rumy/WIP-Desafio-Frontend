@@ -4,14 +4,20 @@ export type DetailsType = {
     certification: Array<Record<string, string>>;
 };
 
+export type BrandType = {
+  brands: Array<Record<string, string>>;
+};
+
+
 export function generatePKCode(
   details: DetailsType,
   selectedCustomerCode: string,
+  selectedBrandCode: string,
   pares: string,
   selectedSize: string,
   selectedCertificationCode: string
 ): string | null {
-  if (!details || !details.customer || !details.certification) {
+  if (!details || !details.customer || !details.certification ||!selectedCustomerCode ||!selectedBrandCode ||!pares || !selectedSize || !selectedCertificationCode) {
     console.error("Detalhes inválidos");
     return null;
   }
@@ -33,10 +39,15 @@ export function generatePKCode(
     return null;
   }
 
+  if (!selectedBrandCode) {
+    console.error("Marca não selecionada");
+    return null;
+  }
   const customerCode = Object.keys(customerEntry)[0];
   const certificationCode = Object.keys(certificationEntry)[0];
+   const brandCode = selectedBrandCode;
 
-  const codigo = `PK${pares}${customerCode}${selectedSize}${certificationCode}`;
+  const codigo = `PK${pares}${customerCode}${brandCode}${selectedSize}${certificationCode}`;
 
   return codigo;
 }
