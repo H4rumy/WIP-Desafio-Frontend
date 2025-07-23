@@ -1,6 +1,8 @@
-import axios from "axios"
 
-export const fetchArticleTypes = async () => {
-    const response = await axios.get("/api/create-articles");
-    return response.data
+//Funções para aceder aos dados da API 
+import axios from "axios";
+
+export async function getArticleTypes() {
+  const res = await axios.get("/article-types");
+  return res.data;
 }

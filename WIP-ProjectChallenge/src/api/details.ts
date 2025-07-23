@@ -1,6 +1,8 @@
-import axios from "axios"
+//Funções para aceder aos dados da API 
 
-export const fetchDetailsType = async (type: string) => {
-    const response = await axios.get(`/api/details/${type}`)
-    return response.data
+import axios from "axios";
+
+export async function getPKDetails() {
+  const res = await axios.get("/details");
+  return res.data;
 }
