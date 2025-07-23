@@ -4,6 +4,7 @@ import { IoChevronForward } from "react-icons/io5";
 import { SearchableDropdown } from "./SearchableDropdown";
 import { getArticleTypes } from "@/api/articleTypes";
 import { generatePKCode } from "@/components/VerifyCode";
+import type { DetailsType } from "@/components/VerifyCode";
 import { getPKDetails } from "@/api/details";
 import { getBrandsByCustomer } from "@/api/brands";
 import { getColorsByBrand } from "@/api/colorsSort";
@@ -89,7 +90,6 @@ const SustCompOptions = details?.sustComp?.map((u: Record<string, string>) => {
 
 
   const [codigo, setCodigo] = useState("");
-
   useEffect(() => {
     async function fetchDetails() {
       const data = await getPKDetails();
@@ -98,19 +98,15 @@ const SustCompOptions = details?.sustComp?.map((u: Record<string, string>) => {
     fetchDetails();
   }, []);
 
-  function handleVerificarClick() {
-    if (!details) {
-      alert("Ainda a carregar dados...");
-      return;
-    }
-
-    const codigoGerado = generatePKCode(details, selectedCustomer, pares);
-    if (codigoGerado) {
-      setCodigo(codigoGerado);
+  const handleVerificarClick = () => {
+    const generatedCode = generatePKCode(details, selectedCustomer, pares, selectedCertification);
+    if (generatedCode) {
+      setCodigo(generatedCode);
     } else {
       alert("Preencha todos os campos corretamente.");
+      setCodigo("");
     }
-  }
+  };
   
 function handleNineDigitChange(
   e: React.ChangeEvent<HTMLInputElement>,
