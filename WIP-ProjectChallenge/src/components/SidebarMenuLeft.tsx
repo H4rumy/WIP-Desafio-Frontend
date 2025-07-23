@@ -23,7 +23,6 @@ export default function SidebarMenuLeft({ onSelect }: SidebarMenuProps) {
   const [selected, setSelected] = useState<string>("");
 
    function handleSelect(item: string) {
-    console.log("Selecionado:", item); // teste
     setSelected(item);
     onSelect(item);
   }

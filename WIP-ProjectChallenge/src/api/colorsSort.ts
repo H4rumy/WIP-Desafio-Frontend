@@ -1,4 +1,4 @@
 
-import { getColorsByBrand } from "@/mocks/colorsSort";
+import { getColorsByBrand } from "@/mocks/mock/colorsSort";
 
 export { getColorsByBrand };

@@ -1,9 +1,9 @@
-//import { useState } from "react";
+
 import { useEffect, useState } from "react";
 import { IoChevronForward } from "react-icons/io5";
-import { SearchableDropdown } from "./form/SearchableDropdown";
-
+import { SearchableDropdown } from "./SearchableDropdown";
 import { getArticleTypes } from "@/api/articleTypes";
+import { generatePKCode } from "@/components/VerifyCode";
 import { getPKDetails } from "@/api/details";
 import { getBrandsByCustomer } from "@/api/brands";
 import { getColorsByBrand } from "@/api/colorsSort";
@@ -12,6 +12,7 @@ export default function CreateArticlePage() {
   const [types, setTypes] = useState<string[]>([]);
   const [type, setType] = useState("");
   const [details, setDetails] = useState<any>(null);
+
 
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -29,10 +30,16 @@ export default function CreateArticlePage() {
     };
   }) || [];
 
-  const [number1, setNumber1] = useState("");
-  const [number2, setNumber2] = useState("");
-  const [number3, setNumber3] = useState("");
-  const [numeroB, setNumeroB] = useState("");
+  const [peso, setPeso] = useState("");
+  const [pesoCx, setPesoCx] = useState("");
+  const [medida1, setMedida1] = useState("");
+  const [medida2, setMedida2] = useState("");
+  const [medida3, setMedida3] = useState("");
+  
+  const [pares, setPares] = useState("");
+  const [packs, setPacks] = useState("");
+  const [coeficiente, setCoeficiente] = useState("");
+  const [unit, setUnit] = useState("");
 
 const [selectedUnit, setSelectedUnit] = useState("");
 const unitOptions = details?.unit?.map((u: Record<string, string>) => {
@@ -61,7 +68,6 @@ const SustCompOptions = details?.sustComp?.map((u: Record<string, string>) => {
   };
 }) || [];
 
-
   const [selectedSize, setSelectedSize] = useState("");
   const sizeOptions = Array.from({ length: 31 }, (_, i) => {
   const size = i + 10;
@@ -73,10 +79,38 @@ const SustCompOptions = details?.sustComp?.map((u: Record<string, string>) => {
 
   const [designacao, setDesignacao] = useState("");
 
+//constantes para referencias
   const [refClient, setRefClient] = useState("");
   const [erroRefClient, setErroRefClient] = useState("");
   const [refCSS, setRefCSS] = useState("");
   const [erroRefCSS, setErroRefCSS] = useState("");
+  const [barCode, setBarCode] = useState("");
+  const [erroBarCode, setErroBarCode] = useState("");
+
+
+  const [codigo, setCodigo] = useState("");
+
+  useEffect(() => {
+    async function fetchDetails() {
+      const data = await getPKDetails();
+      setDetails(data);
+    }
+    fetchDetails();
+  }, []);
+
+  function handleVerificarClick() {
+    if (!details) {
+      alert("Ainda a carregar dados...");
+      return;
+    }
+
+    const codigoGerado = generatePKCode(details, selectedCustomer, pares);
+    if (codigoGerado) {
+      setCodigo(codigoGerado);
+    } else {
+      alert("Preencha todos os campos corretamente.");
+    }
+  }
   
 function handleNineDigitChange(
   e: React.ChangeEvent<HTMLInputElement>,
@@ -95,22 +129,34 @@ function validarNineDigits(
   setError: React.Dispatch<React.SetStateAction<string>>,
   fieldName = "A referência"
 ) {
+  if (value.trim() === "") {
+    setError(""); // Não mostra erro se estiver vazio
+    return;
+  }
+
   if (value.length !== 9) {
-    setError(`${fieldName} deve ter exatamente 9 dígitos.`);
+    setError(`${fieldName} deve ter 9 dígitos.`);
   } else {
     setError("");
     console.log(`${fieldName} válida:`, value);
   }
 }
-
-  
+// Função para validar e limitar o valor a 99
+function handleTwoDigitNumberChange(
+  setter: React.Dispatch<React.SetStateAction<string>>,
+  val: string
+) {
+  if (val === "" || (/^\d+$/.test(val) && Number(val) <= 99)) {
+    setter(val);
+  }
+}
 // Função para validar e limitar o valor a 999
  function handleNumberChange(setter: React.Dispatch<React.SetStateAction<string>>, val: string) {
     if (val === "" || (/^\d+$/.test(val) && Number(val) <= 999)) {
       setter(val);
     }
   }
-// Função para validar e limitar o valor a 999
+// Função para validar e limitar o valor a 999-float
   function handleFloatChange(setter: React.Dispatch<React.SetStateAction<string>>, val: string) {
   if (val === "") {
     setter(val);
@@ -123,6 +169,7 @@ function validarNineDigits(
     setter(val);
   }}
 
+
 // Vai buscar os tipos ao carregar a página
   useEffect(() => {
     getArticleTypes().then((res) => {
@@ -132,7 +179,7 @@ function validarNineDigits(
     });
   }, []);
 
-// Vai buscar detalhes PK só se for PK
+// Vai buscar detalhes PK se for selecionado
   useEffect(() => {
     if (type === "PK") {
       getPKDetails().then((res) => {
@@ -229,30 +276,30 @@ function validarNineDigits(
 
           <div className="flex items-center space-x-35 mb-6">
             <div className="flex items-center space-x-2">
-              <label htmlFor="number1" className="font-medium whitespace-nowrap">
+              <label htmlFor="pares" className="font-medium whitespace-nowrap">
                 N Pares / Nr. Pairs
               </label>
               <input
-                id="number1"
+                id="Pares"
                 type="number"
                 className="border rounded p-2 w-50"
-                value={number1}
-                onChange={(e) => handleNumberChange(setNumber1, e.target.value)}
+                value={pares}
+                onChange={(e) => handleNumberChange(setPares, e.target.value)}
                 min={0}
                 max={999}
               />
             </div>
 
             <div className="flex items-center space-x-2">
-              <label htmlFor="number2" className="font-medium whitespace-nowrap">
+              <label htmlFor="packs" className="font-medium whitespace-nowrap">
                 Packs p/Cx./ Packs per Box
               </label>
               <input
-                id="number2"
+                id="packs"
                 type="number"
                 className="border rounded p-2 w-20"
-                value={number2}
-                onChange={(e) => handleNumberChange(setNumber2, e.target.value)}
+                value={packs}
+                onChange={(e) => handleNumberChange(setPacks, e.target.value)}
                 min={0}
                 max={999}
                 placeholder="0"
@@ -260,17 +307,17 @@ function validarNineDigits(
             </div>
 
             <div className="flex items-center space-x-2  ">
-              <label htmlFor="number3" className="font-medium whitespace-nowrap">
+              <label htmlFor="coeficiente" className="font-medium whitespace-nowrap">
                 Coeficiente p/Cx./Coefficient per Box
               </label>
               <input
                 type="number"
-                id="number3"
+                id="coeficiente"
                 className="border rounded p-2 w-40"
-                value={number3}
+                value={coeficiente}
                 step="any"
                 placeholder="0,00000000"
-                onChange={(e) => handleFloatChange(setNumber3, e.target.value)}
+                onChange={(e) => handleFloatChange(setCoeficiente, e.target.value)}
               />
             </div>
           </div>
@@ -293,7 +340,6 @@ function validarNineDigits(
                     selectedValue={selectedCustomer}
                     onValueChange={(val) => {
                       setSelectedCustomer(val);
-                      // 🔄 Atualiza as brands conforme o cliente (ver useEffect abaixo)
                     }}
                     placeholder=""
                   />
@@ -361,7 +407,7 @@ function validarNineDigits(
                 <textarea
                   id="designacao"
                   className="border rounded p-2 w-48 h-24 resize-none"
-                  placeholder="Escreva a designação..."
+                  placeholder=""
                   value={designacao}
                   onChange={(e) => setDesignacao(e.target.value)}
                 />
@@ -384,15 +430,15 @@ function validarNineDigits(
 
               {/* Preço Un/Un Price */}
               <div className="flex items-center space-x-2">
-                <label htmlFor="numeroB" className="font-medium whitespace-nowrap">
+                <label htmlFor="unit" className="font-medium whitespace-nowrap">
                   Preco Un/Un Price
                 </label>
                 <input
-                  id="numeroB"
+                  id="unit"
                   type="number"
                   className="border rounded p-2 w-24"
-                  value={numeroB}
-                  onChange={(e) => handleNumberChange(setNumeroB, e.target.value)}
+                  value={unit}
+                  onChange={(e) => handleNumberChange(setUnit, e.target.value)}
                   min={0}
                   max={999}
                   placeholder=""
@@ -414,8 +460,9 @@ function validarNineDigits(
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-8 mt-4">
-              {/* Ref. Cliente / Customer Ref */}
+            <div className="flex flex-col space-y-6 mt-4">
+              <div className="flex items-center space-x-8">
+                {/* Ref. Cliente */}
                 <div className="flex items-center space-x-2">
                   <label htmlFor="referencia" className="font-medium whitespace-nowrap mb-1">
                     Ref. Cliente / Customer Ref.
@@ -427,13 +474,14 @@ function validarNineDigits(
                     pattern="\d{9}"
                     maxLength={9}
                     className="border rounded p-2"
-                    placeholder="Ex: 123456789"
+                    placeholder=""
                     value={refClient}
                     onChange={(e) => handleNineDigitChange(e, setRefClient, setErroRefClient)}
                     onBlur={() => validarNineDigits(refClient, setErroRefClient, "A referência do cliente")}
                   />
                   {erroRefClient && <p className="text-red-500 text-sm mt-1">{erroRefClient}</p>}
                 </div>
+
                 {/* Sustainable Comp */}
                 <div className="flex items-center space-x-2">
                   <label htmlFor="sustComp" className="font-medium whitespace-nowrap">
@@ -449,38 +497,140 @@ function validarNineDigits(
                   </div>
                 </div>
               </div>
-              {/* CS style*/}
+
+              {/* CS Style Ref */}
+              <div className="flex items-center space-x-2">
+                <label htmlFor="refCSS" className="font-medium whitespace-nowrap mb-1">
+                  CS Style ref.
+                </label>
+                <input
+                  id="outraRef"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="\d{9}"
+                  maxLength={9}
+                  className="border rounded p-2"
+                  placeholder=""
+                  value={refCSS}
+                  onChange={(e) => handleNineDigitChange(e, setRefCSS, setErroRefCSS)}
+                  onBlur={() => validarNineDigits(refCSS, setErroRefCSS, "A referência interna")}
+                />
+                {erroRefCSS && <p className="text-red-500 text-sm mt-1">{erroRefCSS}</p>}
+              </div>
+
+              <div className="flex items-center space-x-6">
+                {/* Customer Barcode */}
                 <div className="flex items-center space-x-2">
-                  <label htmlFor="outraRef" className="font-medium whitespace-nowrap mb-1">
-                    Referência Interna
+                  <label htmlFor="barCode" className="font-medium whitespace-nowrap mb-1">
+                    Customer Barcode EAN13
                   </label>
                   <input
-                    id="outraRef"
+                    id="barCode"
                     type="text"
                     inputMode="numeric"
                     pattern="\d{9}"
                     maxLength={9}
                     className="border rounded p-2"
-                    placeholder="Ex: 987654321"
-                    value={refCSS}
-                    onChange={(e) => handleNineDigitChange(e, setRefCSS, setErroRefCSS)}
-                    onBlur={() => validarNineDigits(refCSS, setErroRefCSS, "A referência interna")}
+                    placeholder=""
+                    value={barCode}
+                    onChange={(e) => handleNineDigitChange(e, setBarCode, setErroBarCode)}
+                    onBlur={() => validarNineDigits(barCode, setErroBarCode, "Código de barras")}
                   />
-                  {erroRefCSS && <p className="text-red-500 text-sm mt-1">{erroRefCSS}</p>}
+                  {erroBarCode && <p className="text-red-500 text-sm mt-1">{erroBarCode}</p>}
                 </div>
-              {/* Customer Barcode- texto livre*/}
-              <div className="flex items-center space-x-2">
-                <label htmlFor="CS Style" className="font-medium whitespace-nowrap">
-                  CS Style
-                </label>
-                <textarea
-                  id="CSStyle"
-                  className="border rounded  resize-none h-10"
-                  placeholder=""
-                  value={CSStyle}
-                  onChange={(e) => setCSStyle(e.target.value)}
-                />
+
+                {/* Peso */}
+                <div className="flex items-center space-x-2">
+                  <label htmlFor="peso" className="font-medium whitespace-nowrap mb-1">
+                    Peso / Weight-PK
+                  </label>
+                  <input
+                    id="peso"
+                    type="number"
+                    className="border rounded p-2 w-24"
+                    placeholder=""
+                    value={peso}
+                    onChange={(e) => handleNumberChange(setPeso, e.target.value)}
+                    min={0}
+                    max={999}
+                  />
+                  <span className="text-sm text-gray-700">Gr</span>
+                </div>
               </div>
+              <div className="flex items-end space-x-8 mt-4">
+                {/* Peso Cx */}
+                <div className="flex items-center space-x-2">
+                  <label htmlFor="pesoCx" className="font-medium whitespace-nowrap">
+                    Peso Cx / Box Weight
+                  </label>
+                  <input
+                    id="pesoCx"
+                    type="number"
+                    className="border rounded p-2 w-24"
+                    placeholder=""
+                    value={pesoCx}
+                    onChange={(e) => handleTwoDigitNumberChange(setPesoCx, e.target.value)}
+                    min={0}
+                    max={99}
+                  />
+                  <span className="text-sm text-gray-700">Kg</span>
+                </div>
+
+                {/* Medidas Cx */}
+                <div className="flex items-center space-x-2">
+                  <label className="font-medium whitespace-nowrap">Medidas Cx</label>
+
+                  {/* Medida 1 */}
+                  <input
+                    type="number"
+                    className="border rounded p-2 w-16 text-center"
+                    value={medida1}
+                    onChange={(e) => handleTwoDigitNumberChange(setMedida1, e.target.value)}
+                    placeholder="00"
+                  />
+                  <span className="font-medium">X</span>
+
+                  {/* Medida 2 */}
+                  <input
+                    type="number"
+                    className="border rounded p-2 w-16 text-center"
+                    value={medida2}
+                    onChange={(e) => handleTwoDigitNumberChange(setMedida2, e.target.value)}
+                    placeholder="00"
+                  />
+                  <span className="font-medium">X</span>
+
+                  {/* Medida 3 */}
+                  <input
+                    type="number"
+                    className="border rounded p-2 w-16 text-center"
+                    value={medida3}
+                    onChange={(e) => handleTwoDigitNumberChange(setMedida3, e.target.value)}
+                    placeholder="00"
+                  />
+                  <span className="">cm</span>
+                </div>
+              </div>
+              </div>
+              <div className="flex justify-end items-center gap-4 p-5">
+                <label className="whitespace-nowrap">Código Gerado / New Code Created</label>
+                
+                <input
+                  type="text"
+                  readOnly
+                  value={codigo}
+                  placeholder="Código aparecerá aqui"
+                  className="w-72 p-2 border border-gray-200 rounded"
+                />
+                
+                <button
+                  onClick={handleVerificarClick}
+                  className="px-4 py-2 border border-gray-200 rounded hover:bg-gray-100 transition"
+                >
+                  Verificar
+                </button>
+              </div>
+
            </>
           )}
         </>

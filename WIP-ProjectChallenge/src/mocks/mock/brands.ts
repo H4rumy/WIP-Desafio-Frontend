@@ -1,4 +1,4 @@
-
+//ficheiro mock com as marcas
 type BrandData = {
   success: boolean;
   data: Record<string, string>[];

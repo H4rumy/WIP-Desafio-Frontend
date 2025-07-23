@@ -1,4 +1,4 @@
-
+//ficheiro mock com os tipos de cor
 const colorsData: Record<string, Array<Record<string, string>>> = {
   "001": [ // WIPTech Pro
     { "002": "Pure Red" },
