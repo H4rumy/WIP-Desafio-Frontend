@@ -99,7 +99,7 @@ const SustCompOptions = details?.sustComp?.map((u: Record<string, string>) => {
   }, []);
 
   const handleVerificarClick = () => {
-    const generatedCode = generatePKCode(details, selectedCustomer, pares, selectedCertification);
+    const generatedCode = generatePKCode(details, selectedCustomer, pares,selectedSize, selectedCertification);
     if (generatedCode) {
       setCodigo(generatedCode);
     } else {

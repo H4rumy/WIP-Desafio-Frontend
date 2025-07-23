@@ -8,6 +8,7 @@ export function generatePKCode(
   details: DetailsType,
   selectedCustomerCode: string,
   pares: string,
+  selectedSize: string,
   selectedCertificationCode: string
 ): string | null {
   if (!details || !details.customer || !details.certification) {
@@ -15,7 +16,7 @@ export function generatePKCode(
     return null;
   }
 
-  if (!selectedCustomerCode || !pares || !selectedCertificationCode) {
+  if (!selectedCustomerCode || !pares || !selectedSize || !selectedCertificationCode) {
     console.error("Campos obrigatórios não preenchidos");
     return null;
   }
@@ -35,7 +36,7 @@ export function generatePKCode(
   const customerCode = Object.keys(customerEntry)[0];
   const certificationCode = Object.keys(certificationEntry)[0];
 
-  const codigo = `PK${pares}${customerCode}${certificationCode}`;
+  const codigo = `PK${pares}${customerCode}${selectedSize}${certificationCode}`;
 
   return codigo;
 }
